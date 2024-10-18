@@ -8,7 +8,7 @@ import { ImageManager } from "./ImageManager";
 import { Position, Rect } from "./Utils";
 import { ObstacleManager } from "../Entities/Obstacles/ObstacleManager";
 import { Rhino } from "../Entities/Rhino";
-import { Skier } from "../Entities/Skier";
+import { Skier, STATES as SKIER_STATES } from "../Entities/Skier";
 
 export class Game {
     /**
@@ -39,6 +39,11 @@ export class Game {
      * The enemy that chases the skier
      */
     private rhino!: Rhino;
+
+    /**
+     * The score, which increases over time as long as the skier is alive
+     */
+    private score: number = 0;
 
     /**
      * Initialize the game and setup any input handling needed.
@@ -103,6 +108,24 @@ export class Game {
 
         this.skier.update(this.gameTime);
         this.rhino.update(this.gameTime, this.skier);
+
+        if (this.skier.state !== SKIER_STATES.STATE_DEAD) {
+            this.updateScore();
+        }
+    }
+
+    updateScore() {
+        this.score += 0.5; // Increment score by 1 (can be scaled if needed)
+    }
+
+
+    /**
+     * Draw the current score at the top right of the canvas
+     */
+    drawScore() {
+        const padding = 20;
+        const scoreInteger = Math.floor(this.score);
+        this.canvas.drawText(`Score: ${scoreInteger}`, GAME_WIDTH - padding - 200, padding, '20px Arial', 'black');
     }
 
     /**
@@ -115,6 +138,8 @@ export class Game {
         this.skier.draw();
         this.rhino.draw();
         this.obstacleManager.drawObstacles();
+
+        this.drawScore();
     }
 
     /**

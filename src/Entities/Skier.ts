@@ -21,7 +21,7 @@ const STARTING_SPEED: number = 4;
  * The different states the skier can be in.
  */
 
-enum STATES {
+export enum STATES {
     STATE_SKIING = "skiing",
     STATE_CRASHED = "crashed",
     STATE_DEAD = "dead",

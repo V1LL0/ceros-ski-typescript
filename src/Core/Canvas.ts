@@ -92,4 +92,10 @@ export class Canvas {
 
         this.ctx.drawImage(image, x, y, width, height);
     }
+
+    drawText(text: string, x: number, y: number, font: string = '20px Arial', color: string = 'black') {
+        this.ctx.font = font;
+        this.ctx.fillStyle = color;
+        this.ctx.fillText(text, x, y);
+    }
 }
