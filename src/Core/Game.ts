@@ -10,6 +10,11 @@ import { ObstacleManager } from "../Entities/Obstacles/ObstacleManager";
 import { Rhino } from "../Entities/Rhino";
 import { Skier, STATES as SKIER_STATES } from "../Entities/Skier";
 
+enum GameState {
+    RUNNING = "running",
+    GAME_OVER = "gameOver",
+}
+
 export class Game {
     /**
      * The canvas the game will be displayed on
@@ -41,9 +46,16 @@ export class Game {
     private rhino!: Rhino;
 
     /**
+     * The game state (running or gameOver)
+     */
+    private gameState: GameState = GameState.RUNNING;
+
+    /**
      * The score, which increases over time as long as the skier is alive
      */
     private score: number = 0;
+
+    private maxScore: number = 0;
 
     /**
      * Initialize the game and setup any input handling needed.
@@ -58,14 +70,17 @@ export class Game {
      */
     init() {
         this.canvas = new Canvas(GAME_CANVAS, GAME_WIDTH, GAME_HEIGHT);
-        this.imageManager = new ImageManager();
+
+        this.imageManager = this.imageManager || new ImageManager();
         this.obstacleManager = new ObstacleManager(this.imageManager, this.canvas);
+        this.obstacleManager.placeInitialObstacles();
 
         this.skier = new Skier(0, 0, this.imageManager, this.obstacleManager, this.canvas);
         this.rhino = new Rhino(-500, -2000, this.imageManager, this.canvas);
 
         this.calculateGameWindow();
-        this.obstacleManager.placeInitialObstacles();
+
+        this.gameState = GameState.RUNNING;
     }
 
     /**
@@ -87,12 +102,16 @@ export class Game {
      * The main game loop. Clear the screen, update the game objects and then draw them.
      */
     run() {
-        this.canvas.clearCanvas();
-
-        this.updateGameWindow();
-        this.drawGameWindow();
+        if (this.gameState === GameState.RUNNING) {
+            this.canvas.clearCanvas();
+            this.updateGameWindow();
+            this.drawGameWindow();
+        } else {
+            this.drawGameOver();
+        }
 
         requestAnimationFrame(this.run.bind(this));
+
     }
 
     /**
@@ -109,13 +128,26 @@ export class Game {
         this.skier.update(this.gameTime);
         this.rhino.update(this.gameTime, this.skier);
 
-        if (this.skier.state !== SKIER_STATES.STATE_DEAD) {
+        if (this.skier.state === SKIER_STATES.STATE_DEAD) {
+            this.gameState = GameState.GAME_OVER;
+            this.saveMaxScore();
+            this.resetScore();
+        } else {
             this.updateScore();
         }
+
+    }
+
+    saveMaxScore() {
+        this.maxScore = Math.max(this.score, this.maxScore);
     }
 
     updateScore() {
-        this.score += 0.5; // Increment score by 1 (can be scaled if needed)
+        this.score += 0.5; // Increment score every game cycle (can be scaled if needed)
+    }
+
+    resetScore() {
+        this.score = 0;
     }
 
 
@@ -123,9 +155,11 @@ export class Game {
      * Draw the current score at the top right of the canvas
      */
     drawScore() {
-        const padding = 20;
+        const padding = 30;
+        const maxScoreInteger = Math.floor(this.maxScore);
         const scoreInteger = Math.floor(this.score);
-        this.canvas.drawText(`Score: ${scoreInteger}`, GAME_WIDTH - padding - 200, padding, '20px Arial', 'black');
+
+        this.canvas.drawText(`Max Score: ${maxScoreInteger}   Score: ${scoreInteger}`, GAME_WIDTH - padding - 270, padding, '20px Arial', 'black');
     }
 
     /**
@@ -156,12 +190,30 @@ export class Game {
 
     /**
      * Handle keypresses and delegate to any game objects that might have key handling of their own.
+     * In case we are in "game over" then we wait for the user to press Enter in order to restart the game
      */
     handleKeyDown(event: KeyboardEvent) {
+        if (this.gameState === GameState.GAME_OVER && event.key === "Enter") {
+            this.restartGame();
+            event.preventDefault();
+
+            return;
+        }
+
         let handled: boolean = this.skier.handleInput(event.key);
 
         if (handled) {
             event.preventDefault();
         }
+    }
+
+    restartGame() {
+        this.init();
+        this.gameState = GameState.RUNNING;
+    }
+
+    drawGameOver() {
+        this.canvas.drawText("Game Over!", GAME_WIDTH / 2 - 100, GAME_HEIGHT / 2, '30px Roboto', 'red');
+        this.canvas.drawText("Press Enter to restart", GAME_WIDTH / 2 - 110, GAME_HEIGHT / 2 + 40, '20px Roboto', 'green');
     }
 }

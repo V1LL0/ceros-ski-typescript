@@ -2,4 +2,7 @@ html,
 body {
     margin: 0;
     padding: 0;
+
+    /* Make sure not to create scrollbars that would mess up the canvas sizes */
+    overflow: hidden;
 }

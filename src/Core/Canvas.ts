@@ -29,20 +29,21 @@ export class Canvas {
         this.canvasId = canvasId;
         this.width = width;
         this.height = height;
-        this.canvas = this.findCanvas();
+        this.canvas = this.recreateCanvas();
         this.ctx = this.getCanvasContext();
 
         this.setupCanvas();
     }
 
-    /**
-     * Get the canvas DOM element for the instances canvasId
-     */
-    findCanvas(): HTMLCanvasElement {
-        const canvas = document.getElementById(this.canvasId);
-        if (!(canvas instanceof HTMLCanvasElement)) {
-            throw new Error(`Canvas element ${this.canvasId} not found!`);
+    recreateCanvas() {
+        const oldCanvas = document.getElementById(this.canvasId);
+        if (oldCanvas !== null) {
+            oldCanvas.parentNode?.removeChild(oldCanvas);
         }
+
+        const canvas = document.createElement('canvas');
+        canvas.setAttribute("id", this.canvasId);
+        document.body.appendChild(canvas);
 
         return canvas;
     }

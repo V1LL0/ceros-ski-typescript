@@ -13,7 +13,7 @@ import { intersectTwoRects, getDirectionVector } from "../Core/Utils";
 /**
  * The rhino starts running at this speed. Saved in case speed needs to be reset at any point.
  */
-const STARTING_SPEED: number = 10.5;
+const STARTING_SPEED: number = 10.1;
 
 /**
  * The different states the rhino can be in.
