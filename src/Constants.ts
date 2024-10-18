@@ -9,6 +9,7 @@ export enum KEYS {
     RIGHT = "ArrowRight",
     UP = "ArrowUp",
     DOWN = "ArrowDown",
+    SPACE_BAR = " "
 }
 
 export enum IMAGE_NAMES {
@@ -18,6 +19,12 @@ export enum IMAGE_NAMES {
     SKIER_DOWN = "skierDown",
     SKIER_RIGHTDOWN = "skierRightDown",
     SKIER_RIGHT = "skierRight",
+    SKIER_JUMP_1 = "skierJump1",
+    SKIER_JUMP_2 = "skierJump2",
+    SKIER_JUMP_3 = "skierJump3",
+    SKIER_JUMP_4 = "skierJump4",
+    SKIER_JUMP_5 = "skierJump5",
+    JUMP_RAMP = "jumpRamp",
     TREE = "tree",
     TREE_CLUSTER = "treeCluster",
     ROCK1 = "rock1",
@@ -53,6 +60,12 @@ export const IMAGES: iImage[] = [
     { name: IMAGE_NAMES.RHINO_EAT4, url: "img/rhino_eat_4.png" },
     { name: IMAGE_NAMES.RHINO_CELEBRATE1, url: "img/rhino_celebrate_1.png" },
     { name: IMAGE_NAMES.RHINO_CELEBRATE2, url: "img/rhino_celebrate_2.png" },
+    { name: IMAGE_NAMES.SKIER_JUMP_1, url: "img/skier_jump_1.png" },
+    { name: IMAGE_NAMES.SKIER_JUMP_2, url: "img/skier_jump_2.png" },
+    { name: IMAGE_NAMES.SKIER_JUMP_3, url: "img/skier_jump_3.png" },
+    { name: IMAGE_NAMES.SKIER_JUMP_4, url: "img/skier_jump_4.png" },
+    { name: IMAGE_NAMES.SKIER_JUMP_5, url: "img/skier_jump_5.png" },
+    { name: IMAGE_NAMES.JUMP_RAMP, url: "img/jump_ramp.png" },
 ];
 
 export const ANIMATION_FRAME_SPEED_MS: number = 250;

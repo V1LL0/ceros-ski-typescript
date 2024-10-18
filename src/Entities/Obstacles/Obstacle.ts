@@ -16,6 +16,7 @@ const OBSTACLE_TYPES: IMAGE_NAMES[] = [
     IMAGE_NAMES.TREE_CLUSTER,
     IMAGE_NAMES.ROCK1,
     IMAGE_NAMES.ROCK2,
+    IMAGE_NAMES.JUMP_RAMP,
 ];
 
 export class Obstacle extends Entity {
