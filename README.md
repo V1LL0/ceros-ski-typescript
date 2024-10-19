@@ -93,3 +93,34 @@ how creative candidates get with this.
 -   Write unit tests for your code
 
 We are looking forward to see what you come up with!!
+
+## Valerio's documentation
+
+**Main Task**
+
+ - [x] Jump ramps are added to the game world and appear randomly as the skier skis.
+ - [x] The skier should enter the jumping state when they hit the jump ramp.
+ - [x] The skier should also enter the jumping state when the user presses the spacebar.
+ - [x] The skier should do a flip while jumping, at least one cycle through the jump images provided.
+ - [x] While jumping, the skier should be able to jump over some obstacles:
+   - [x] Rocks can be jumped over
+   - [x] Trees can NOT be jumped over
+
+**Bonus**
+
+ - Added a score system:
+   - the score increments while the skier is alive, when the skier dies, the score is saved as max score, if higher than the previous max score
+   - The score is shown in the top right section of the screen
+ - When the skier dies a "game over" message is shown and the user can restart the game by pressing "Enter"
+ - Pushed the code in a GitHub repository and published the project via GitHub Pages, making it live and playable at https://v1ll0.github.io/ceros-ski-typescript/
+
+**Minor Fixes / Others**
+
+ - Added "overflow: hidden;" in the css file to make it impossible for the scrollbars to appear.
+ - Moved the animation methods in the Entity class, any entity could be animated and not just the Rhino
+   - Animation is optional for an Entity, the Skier would implement its own animation, while other Entities will not, for the time being (rocks, trees)
+ - The work is spread in different commits:
+   - [main task](https://github.com/V1LL0/ceros-ski-typescript/commit/eb301e402e400e6672edaf49ae5ce8f808c4a8be)
+   - [scoring system](https://github.com/V1LL0/ceros-ski-typescript/commit/116f813b4cecbde4eec9742d43591cd239fff528)
+   - [game restart + max score](https://github.com/V1LL0/ceros-ski-typescript/commit/3cc4f5bc67eef6d7020405d8fcb285e36c0a93df)
+ 
